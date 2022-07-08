@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_list/posts/bloc/post_bloc.dart';
-import 'package:infinite_list/posts/bloc/post_event.dart';
-import 'package:infinite_list/posts/bloc/post_state.dart';
 import 'package:infinite_list/posts/widgets/bottom_loader.dart';
 import 'package:infinite_list/posts/widgets/post_list_item.dart';
 
@@ -26,9 +24,9 @@ class _PostListState extends State<PostList> {
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(builder: (context, state) {
       switch (state.status) {
-        case PostStatus.failue:
+        case PostStatus.failure:
           return const Center(child: Text("Failed to fetch data"));
-        case PostStatus.sucess:
+        case PostStatus.success:
           if (state.posts.isEmpty) {
             return const Center(child: Text('no posts'));
           }

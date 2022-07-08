@@ -1,16 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
+part of 'post_bloc.dart';
 
-import 'package:infinite_list/posts/model/post.dart';
-
-enum PostStatus { intial, sucess, failue }
+enum PostStatus { initial, success, failure }
 
 class PostState {
   final PostStatus status;
   final List<Post> posts;
   final bool hasReachedMax;
   const PostState({
-    this.status = PostStatus.intial,
+    this.status = PostStatus.initial,
     this.posts = const <Post>[],
     this.hasReachedMax = false,
   });

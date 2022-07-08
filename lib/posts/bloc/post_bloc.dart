@@ -1,9 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infinite_list/posts/bloc/post_event.dart';
-import 'package:infinite_list/posts/bloc/post_state.dart';
 import 'package:infinite_list/repository/post_api_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:equatable/equatable.dart';
+
+import '../model/post.dart';
+
+part 'post_state.dart';
+part 'post_event.dart';
 
 const throttleDuration = Duration(milliseconds: 100);
 
@@ -25,10 +29,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       PostFetched event, Emitter<PostState> emit) async {
     if (!state.hasReachedMax) {
       try {
-        if (state.status == PostStatus.intial) {
+        if (state.status == PostStatus.initial) {
           final posts = await postApiRepository.fetchPosts();
           return emit(state.copyWith(
-            status: PostStatus.sucess,
+            status: PostStatus.success,
             posts: posts,
             hasReachedMax: false,
           ));
@@ -37,11 +41,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         posts.isEmpty
             ? emit(state.copyWith(hasReachedMax: true))
             : emit(state.copyWith(
-                status: PostStatus.sucess,
+                status: PostStatus.success,
                 posts: List.of(state.posts)..addAll(posts),
                 hasReachedMax: false));
       } catch (e) {
-        emit(state.copyWith(status: PostStatus.failue));
+        emit(state.copyWith(status: PostStatus.failure));
       }
     }
   }
